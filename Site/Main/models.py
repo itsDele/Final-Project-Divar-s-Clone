@@ -6,7 +6,7 @@ from django.dispatch import receiver
 from django.utils.text import slugify
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
-from .managers import MyUserManager  # type: ignore # Changed import to match new manager name
+from .manager import MyUserManager   
 from django.db.models.signals import post_delete
 import random
 import string

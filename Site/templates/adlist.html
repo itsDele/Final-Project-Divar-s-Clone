@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Listings Overview</title>
+</head>
+<body>
+    <h1>Available Listings</h1>
+    <ul>
+        {% for item in suggested_listings %}
+            <li>{{ item.title }} - {{ item.description }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

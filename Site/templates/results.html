@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block main_section %}
+    <h1>Results for Your Search</h1>
+    <ul class="list-group">
+        {% for listing in finds %}
+            <li class="list-group-item">
+                <h2>{{ listing.title }}</h2>
+                <p>{{ listing.description }}</p>
+                <p>Price: {{ listing.price }}</p>
+                <p>Location: {{ listing.city }}</p>
+                <p>Type: {{ listing.category }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

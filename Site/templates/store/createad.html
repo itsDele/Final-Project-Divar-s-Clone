@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center mb-4">Create New Ad</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="row g-3">
+            <!-- Advertisement Form Fields -->
+            <div class="col-md-6">
+                {{ ad_creation_form.non_field_errors }}
+                {% for field in ad_creation_form %}
+                    {% if field.name != 'ad_category' %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field|add_class:"form-control" }}
+                            {% if field.errors %}
+                                <div class="text-danger">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <!-- Category and Image Upload Form Fields -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="id_ad_category" class="form-label">Ad Category</label>
+                    <select name="ad_category" id="id_ad_category" class="form-control">
+                        {% for ad_category in ad_categories %}
+                            <option value="{{ ad_category.id }}">{{ ad_category.category_name }}</option>
+                        {% endfor %}
+                    </select>
+                    {% if ad_creation_form.ad_category.errors %}
+                        <div class="text-danger">{{ ad_creation_form.ad_category.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label for="id_ad_image" class="form-label">Upload Ad Images</label>
+                    {{ ad_image_form.ad_image|add_class:"form-control" }}
+                    {% if ad_image_form.errors %}
+                        <div class="text-danger">{{ ad_image_form.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <div class="text-center mt-4">
+            <button type="submit" class="btn btn-dark">Create Advertisement</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

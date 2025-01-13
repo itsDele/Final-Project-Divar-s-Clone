@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block main_content %}
+    <h1>Featured Ads</h1>
+    <ul class="list-group">
+        {% for advertisement in suggestions %}
+            <li class="list-group-item">
+                <h2>{{ advertisement.title }}</h2>
+                <p>{{ advertisement.description }}</p>
+                <p>Cost: {{ advertisement.price }}</p>
+                <p>Location: {{ advertisement.city }}</p>
+                <p>Type: {{ advertisement.category }}</p>
+            </li>
+        {% endfor %}
+    </ul>
+{% endblock %}

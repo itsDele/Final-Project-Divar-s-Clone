@@ -3,7 +3,6 @@ from django.utils.translation import gettext_lazy as _
 import random
 import string
 
-
 class MyUserManager(BaseUserManager):
     def create_normal_user(self, user_name, user_password, **additional_fields):
         if not user_name:

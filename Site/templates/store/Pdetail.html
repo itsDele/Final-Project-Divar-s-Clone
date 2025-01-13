@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="container mt-5">
+    <div class="row">
+        <!-- Item Image Carousel -->
+        <div class="col-md-6">
+            <div id="itemCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    {% for pic in images %}
+                    <div class="carousel-item {% if forloop.first %}active{% endif %}">
+                        <img src="{{ pic.image.url }}" class="d-block w-100" alt="{{ listing.name }}">
+                    </div>
+                    {% endfor %}
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#itemCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon bg-dark rounded-circle" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#itemCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon bg-dark rounded-circle" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Item Details -->
+        <div class="col-md-6">
+            <h2 class="mt-4">{{ listing.name }}</h2>
+            <p><strong>Cost:</strong> ${{ listing.cost }}</p>
+            <p>{{ listing.details }}</p>
+        </div>
+    </div>
+
+    <!-- Recommended Listings Section -->
+    <div class="recommended-ads mt-5 pt-5 border-top">
+        <h3 class="mb-4">Recommended Listings</h3>
+        {% if related_listings %}
+            <div class="row">
+                {% for suggestion in related_listings %}
+                <div class="col-md-4 mb-4">
+                    <div class="card shadow-sm">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ suggestion.name }}</h5>
+                            <p class="card-text">{{ suggestion.details|truncatewords:20 }}</p>
+                            <p class="card-text"><strong>Cost:</strong> {{ suggestion.cost }}</p>
+                            <p class="card-text"><strong>Location:</strong> {{ suggestion.location }}</p>
+                            <p class="card-text"><strong>Type:</strong> {{ suggestion.type }}</p>
+                            <a href="{% url 'listing_detail' slug=suggestion.id %}" class="btn btn-dark">See Details</a>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No suggestions available.</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

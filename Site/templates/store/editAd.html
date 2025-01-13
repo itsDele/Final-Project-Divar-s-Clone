@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load static %}
+{% load custom_filters %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Ad</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        body {
+            filter: grayscale(100%);
+        }
+        .image-container {
+            position: relative;
+            display: inline-block;
+            margin: 5px;
+        }
+        .image-container img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+        }
+        .delete-button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        .alert {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+{% block content %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert {% if message.tags %}alert-{{ message.tags }}{% else %}alert-info{% endif %}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+    <div id="error-message" class="alert alert-danger" style="display: none;"></div>
+    {% if error_message %}
+        <div class="alert alert-danger">
+            {{ error_message }}
+        </div>
+    {% endif %}
+    <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="row g-3">
+            <!-- Advertisement Form Fields -->
+            <div class="col-md-6">
+                {{ form.non_field_errors }}
+                {% for field in form %}
+                    {% if field.name != 'category' and field.name != 'uploaded_images' %}
+                        <div class="mb-3">
+                            <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                            {{ field|add_class:"form-control" }}
+                            {% if field.help_text %}
+                                <div class="form-text">{{ field.help_text }}</div>
+                            {% endif %}
+                            {% if field.errors %}
+                                <div class="text-danger">{{ field.errors }}</div>
+                            {% endif %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            </div>
+
+            <!-- Category and Image Upload Form Fields -->
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="id_category" class="form-label">Category</label>
+                    <select name="category" id="id_category" class="form-control">
+                        {% for category in categories %}
+                            <option value="{{ category.id }}" {% if category.id == form.instance.category.id %}selected{% endif %}>{{ category.category_name }}</option>
+                        {% endfor %}
+                    </select>
+                    {% if form.category.errors %}
+                        <div class="text-danger">{{ form.category.errors }}</div>
+                    {% endif %}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">Existing Images</label>
+                    <div>
+                        {% for img in existing_images %}
+                            <div class="image-container">
+                                <img src="{{ img.image.url }}" alt="Ad Image">
+                                <button type="button" class="delete-button" onclick="deleteImage({ img,id },)">X</button>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label for="id_uploaded_images" class="form-label">Upload Images</label>
+                    <input type="file" name="uploaded_images" id="id_uploaded_images" class="form-control" multiple>
+                    {% if form.uploaded_images.errors %}
+                        <div class="text-danger">{{ form.uploaded_images.errors }}</div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary mt-3">Save Changes</button>
+    </form>
+    <form method="post" action="{% url 'delete_advertisement' ad.slug %}" class="mt-3">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete Advertisement</button>
+    </form>
+</div>
+<script>
+function deleteImage(imageId) {
+    if (confirm('Are you sure you want to delete this image?')) {
+        fetch("{% url 'delete_image' 0 %}".replace('0', imageId), {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': '{{ csrf_token }}',
+                'Content-Type': 'application/json'
+            }
+        }).then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                location.reload();
+            } else {
+                document.getElementById('error-message').innerText = data.error || 'Failed to delete image.';
+                document.getElementById('error-message').style.display = 'block';
+            }
+        }).catch(error => {
+            document.getElementById('error-message').innerText = 'An error occurred: ' + error.message;
+            document.getElementById('error-message').style.display = 'block';
+        });
+    }
+}
+</script>
+{% endblock %}
+</body>
+</html>
