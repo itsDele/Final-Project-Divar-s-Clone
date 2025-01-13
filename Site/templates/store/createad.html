@@ -8,7 +8,6 @@
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row g-3">
-            <!-- Advertisement Form Fields -->
             <div class="col-md-6">
                 {{ ad_creation_form.non_field_errors }}
                 {% for field in ad_creation_form %}
@@ -23,8 +22,6 @@
                     {% endif %}
                 {% endfor %}
             </div>
-
-            <!-- Category and Image Upload Form Fields -->
             <div class="col-md-6">
                 <div class="mb-3">
                     <label for="id_ad_category" class="form-label">Ad Category</label>

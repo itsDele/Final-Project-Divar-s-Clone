@@ -1,9 +1,9 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm, UsernameField
 from django import forms
-from django.contrib.auth.models import MyUser  # Renamed User model
+from django.contrib.auth.models import MyUser
 from django.utils.translation import gettext, gettext_lazy as _
 from .models import MyUser as MyCustomUserModel, AdListing, AdImage
-from .widgets import CustomWidgets  # Assume you want to keep widgets custom
+from .widgets import CustomWidgets
 
 class MyUserCreationForm(UserCreationForm):
     class Meta:

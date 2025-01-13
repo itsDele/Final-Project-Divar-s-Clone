@@ -55,7 +55,6 @@
     <form method="post" enctype="multipart/form-data" class="needs-validation" novalidate>
         {% csrf_token %}
         <div class="row g-3">
-            <!-- Advertisement Form Fields -->
             <div class="col-md-6">
                 {{ form.non_field_errors }}
                 {% for field in form %}
@@ -74,7 +73,6 @@
                 {% endfor %}
             </div>
 
-            <!-- Category and Image Upload Form Fields -->
             <div class="col-md-6">
                 <div class="mb-3">
                     <label for="id_category" class="form-label">Category</label>

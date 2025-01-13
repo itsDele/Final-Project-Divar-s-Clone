@@ -1,18 +1,18 @@
 from django.shortcuts import render, HttpResponseRedirect, redirect, get_object_or_404
 from .forms import *
-from .models import Ad, UserProfile, AdImage, ItemCategory
+from .models import Ad, AdImage, ItemCategory
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.http import JsonResponse
 
-# Home page showing ads
+
 def MainPage(request):
     ads = Ad.objects.all()
     recs = get_recommendations(request, key='homepage_recs', as_dict=True)
 
     for ad in ads:
-        ad.main_image = AdImage.objects.filter(ad=ad).first()  # Align with AdImage model
+        ad.main_image = AdImage.objects.filter(ad=ad).first() 
 
     context = {
         'homepage_recs': recs,
@@ -119,11 +119,11 @@ def delete_ad(request, slug):
 @login_required
 def delete_photo(request, photo_id):
     photo = get_object_or_404(AdImage, id=photo_id)
-    ad = photo.ad  # Ensure this relates correctly
+    ad = photo.ad  
 
     if request.method == 'POST':
         try:
-            if ad.images.count() > 1:  # Ensure at least one image remains
+            if ad.images.count() > 1:  
                 photo.delete()
                 return JsonResponse({'success': True})
             else:
@@ -132,7 +132,7 @@ def delete_photo(request, photo_id):
             return JsonResponse({'error': str(e)}, status=400)
     return JsonResponse({'error': 'Invalid method.'}, status=400)
 
-# User registration and login
+
 def register(request):
     if not request.user.is_authenticated:
         if request.method == "POST":
@@ -175,11 +175,11 @@ def logout_user(request):
     logout(request)
     return HttpResponseRedirect("/login/")
 
-# Get advertisement suggestions
+
 def suggest_ads_template(request):
     if request.is_ajax() and request.method == 'GET':
         query = request.GET.get('query', '')
-        ads = Ad.objects.filter(title__icontains=query)  # Adjust filtering as needed
+        ads = Ad.objects.filter(title__icontains=query) 
         suggestions = [{"title": ad.title, "slug": ad.slug} for ad in ads]
         return JsonResponse(suggestions, safe=False)
 
@@ -200,7 +200,7 @@ def get_recommendations(request, key='recs', as_dict=False):
         return render(request, 'no_results_found.html')
 
     try:
-        category = ItemCategory.objects.get(name__iexact=cat)  # Check category name
+        category = ItemCategory.objects.get(name__iexact=cat)  
     except ItemCategory.DoesNotExist:
         if as_dict:
             return []
@@ -213,7 +213,7 @@ def get_recommendations(request, key='recs', as_dict=False):
     context = {key: ad_data}
     return render(request, 'ad_list_display.html', context)
 
-# Error handlers
+
 def error_403(request, exception=None):
     return render(request, 'errors/error_403.html', status=403)
 

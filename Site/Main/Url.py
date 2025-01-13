@@ -9,7 +9,7 @@ from .views import (
     edit_ad,
     delete_ad,
     delete_photo,
-    suggest_ads_template  # Make sure this function is defined in views.py
+    suggest_ads_template
 )
 
 urlpatterns = [
@@ -23,5 +23,5 @@ urlpatterns = [
     path('edit-ad/<slug:slug>/delete/', delete_ad, name='delete_advertisement'),
     path('delete_image/<int:photo_id>/', delete_photo, name='delete_image'),
     path('api/', include('Main.api.urls')),
-    path('suggestions/', suggest_ads_template, name='advertisement_suggestions'),  # Updated to use the correct function name
+    path('suggestions/', suggest_ads_template, name='advertisement_suggestions'),
 ]

@@ -6,11 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Market Hub</title>
     <link href="{% static 'css/all.min.css' %}" rel="stylesheet" />
-    <!-- Google CSS Fonts -->
     <link href="{% static 'css/google_css.css' %}" rel="stylesheet" />
-    <!-- MDB -->
     <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet" />
-    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
         body {
@@ -26,7 +23,6 @@
     </style>
 </head>
 <body>
-<!-- Navbar -->
 <nav class="navbar navbar-expand-lg navbar-dark navbar-custom-style">
     <div class="container">
         <a class="navbar-brand" href="{% url 'home_page' %}">Market Hub</a>
@@ -52,9 +48,7 @@
     </div>
 </nav>
 
-<!-- Main Content -->
 <div class="container mt-4">
-    <!-- Search Form -->
     <form method="get" action="{% url 'listing_suggestions' %}">
         <div class="mb-3">
             <label for="search_box" class="form-label">Find by title:</label>
@@ -62,8 +56,6 @@
         </div>
         <button type="submit" class="btn btn-primary">Find</button>
     </form>
-
-    <!-- Display Recommendations -->
     <form>
          <ul>
              {% for suggested in recommendations %}

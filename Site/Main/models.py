@@ -11,8 +11,6 @@ from django.db.models.signals import post_delete
 import random
 import string
 import os
-
-# Custom models
 class UserProfile(AbstractBaseUser, PermissionsMixin):
     id = models.AutoField(primary_key=True)
     username = models.CharField(_("username"), unique=True, max_length=50)
@@ -89,7 +87,6 @@ class AdImage(models.Model):
     image_file = models.ImageField(upload_to='ad_images/')
     
     def delete(self, *args, **kwargs):
-        # Remove the image file from the filesystem
         if self.image_file:
             if os.path.isfile(self.image_file.path):
                 os.remove(self.image_file.path)
@@ -104,4 +101,4 @@ def generate_unique_identifier():
 @receiver(post_delete, sender=Ad)
 def remove_ad_image_files(sender, instance, **kwargs):
     for img in instance.images.all():
-        img.delete()  #custom delete method of AdImage
+        img.delete()
