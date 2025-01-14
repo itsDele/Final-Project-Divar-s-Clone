@@ -1,77 +1,77 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
-from .models import UserProfile, Ad, ItemCategory, Location, AdImage
-from .forms import MyUserCreationForm, MyUserUpdateForm
+from .models import *
+from .forms import *
 
-@admin.register(UserProfile)
-class CustomUserAdmin(UserAdmin):
+@admin.register(User)
+class UserAdminCustom(UserAdmin):
     list_display = (
-        'username',
+        'username', 
         'email',
         'first_name',
-        'last_name',
-        'phone',
-        'is_staff',
-        'slug_identifier'
+        'last_name', 
+        'phone_number',
+        'is_staff', 
+        'slug'
     )
     fieldsets = (
         (None, {'fields': ('username', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'phone', 'slug_identifier')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'phone_number', 'slug')}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
-        ('Important dates', {'fields': ('date_registered',)})
+        ('Important dates', {'fields': ('last_login', 'date_joined')}),
     )
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': (
+            'fields': ( 
                 'username',
-                'email',
+                'email', 
                 'first_name',
-                'last_name',
-                'phone',
+                'last_name', 
+                'phone_number',
                 'password1',
-                'password2',
-                'slug_identifier'
+                'password2', 
+                'slug'
             ),
         }),
     )
     ordering = ('username',)
     filter_horizontal = ()
     list_filter = ()
-    form = MyUserUpdateForm
-    add_form = MyUserCreationForm
-
+    form = CustomUserUpdateForm
+    add_form = CustomUserCreationForm
+ 
 class AdvertisementImageInline(admin.TabularInline):
-    model = AdImage
-    extra = 1
+    model = AdvertisingImage
+    extra = 1     
 
-@admin.register(Ad)
-class CustomAdvertisementAdmin(admin.ModelAdmin):
-    list_display = (
+@admin.register(Advertising)
+class AdvertisingAdminCustom(admin.ModelAdmin):
+    list_display = ( 
         "title",
-        "price",
-        "city_location",
-        "ad_category",
-        "created_on",
-        "updated_on",
+        "price", 
+        "city", 
+        "category",
+        "created_at",
+        "updated_at",
     )
-    list_filter = (
-        "city_location",
-        "ad_category",
-        "created_on",
-    )
-    search_fields = ("title", "description",)
-    ordering = ("-created_on",)
-    prepopulated_fields = {'slug_identifier': ('title',)}
+    list_filter = ( 
+        "city", 
+        "category",
+        "created_at",
+    )  
+    search_fields = ("title", "description") 
+    ordering = ("-created_at",)  
+    prepopulated_fields = {'slug': ('title',)}
     inlines = [AdvertisementImageInline]
 
-@admin.register(Location)
-class CustomCityAdmin(admin.ModelAdmin):
-    list_display = ('name',)
-    search_fields = ('name',)
+@admin.register(City)
+class CityAdminCustom(admin.ModelAdmin):
+    list_display = ('city_name',)
+    search_fields = ('city_name',)
 
-@admin.register(ItemCategory)
-class CustomCategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'parent_category')
-    list_filter = ('parent_category',)
-    search_fields = ('name',)
+@admin.register(Category)
+class CategoryAdminCustom(admin.ModelAdmin):
+    list_display = ('category_name', 'parent')
+    list_filter = ('parent',)      
+    search_fields = ('category_name',)

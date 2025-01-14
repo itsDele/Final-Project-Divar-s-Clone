@@ -1,65 +1,55 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm, UsernameField
 from django import forms
-from django.utils.translation import gettext as _
-from .models import UserProfile, Ad, AdImage
+from django.contrib.auth.models import User
+from django.utils.translation import gettext_lazy as _
+from .models import User, Advertising, AdvertisingImage, Category
+from .widgets import *
 
-class MyUserCreationForm(UserCreationForm):
+class CustomUserCreationForm(UserCreationForm):
     class Meta:
-        model = UserProfile
-        fields = ("username", "first_name", "last_name", "email", "phone")
+        model = User
+        fields = ("username", "first_name", "last_name", "email", "phone_number")
         labels = {
             "first_name": "First Name",
             "last_name": "Last Name",
             "email": "Email",
-            "phone": "Phone Number"
+            "phone_number": "Phone Number"
         }
         widgets = {
             "username": forms.TextInput(attrs={"class": "form-control"}),
             "first_name": forms.TextInput(attrs={"class": "form-control"}),
-            "phone": forms.NumberInput(attrs={"class": "form-control"}),
+            "phone_number": forms.NumberInput(attrs={"class": "form-control"}),
             "last_name": forms.TextInput(attrs={"class": "form-control"}),
             "email": forms.EmailInput(attrs={"class": "form-control"}),
         }
 
-class MyUserUpdateForm(UserChangeForm):
+class CustomUserUpdateForm(UserChangeForm):
     class Meta:
-        model = UserProfile
-        fields = ("username", "first_name", "last_name", "email", "phone")
+        model = User
+        fields = ("username", "first_name", "last_name", "email", "phone_number")
 
-class SignInForm(AuthenticationForm):
-    username = UsernameField(
-        widget=forms.TextInput(attrs={"autofocus": True, "class": "form-control"})
-    )
-    password = forms.CharField(
-        label=_("Password"),
-        strip=False,
-        widget=forms.PasswordInput(
-            attrs={"autocomplete": "current-password", "class": "form-control"}
-        ),
-    )
-
-class AdListingForm(forms.ModelForm):
+class AdvertisingForm(forms.ModelForm):
     class Meta:
-        model = Ad
-        fields = ['title', 'description', 'price', 'publication_date', 'ad_category', 'city_location']
+        model = Advertising
+        fields = ['title', 'description', 'price', 'publication_date', 'category', 'city']
         widgets = {
             'title': forms.TextInput(attrs={'class': 'form-control'}),
             'description': forms.Textarea(attrs={'class': 'form-control'}),
             'price': forms.NumberInput(attrs={'class': 'form-control'}),
             'publication_date': forms.DateInput(attrs={'class': 'form-control', 'type': 'date'}),
-            'city_location': forms.Select(attrs={'class': 'form-control'}),
-            'ad_category': forms.Select(attrs={'class': 'form-control'}),
+            'city': forms.Select(attrs={'class': 'form-control'}),
+            'category': forms.Select(attrs={'class': 'form-control'}),
         }
 
-class AdImageForm(forms.ModelForm):
+class AdvertisingImageForm(forms.ModelForm):
     class Meta:
-        model = AdImage
-        fields = ('image_file',)
+        model = AdvertisingImage
+        fields = ('image',)
         widgets = {
-            'image_file': forms.ClearableFileInput(attrs={'multiple': True, 'accept': 'image/*'}),
+            'image': MultiFileInputWidget(attrs={'multiple': True, 'accept': 'image/*'}),
         }
 
-    def save(self, ad_listing, *args, **kwargs):
-        uploaded_images = self.files.getlist('image_file')
-        for image in uploaded_images:
-            AdImage.objects.create(ad_listing=ad_listing, image_file=image)
+    def save(self, advertisement, *args, **kwargs):
+        images = self.files.getlist('image')
+        for image in images:
+            AdvertisingImage.objects.create(advertisement=advertisement, image=image)
