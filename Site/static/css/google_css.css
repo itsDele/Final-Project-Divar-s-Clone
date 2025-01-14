@@ -1,0 +1,93 @@
+@font-face {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/roboto/v32/KFOlCnqEu92Fr1MmSU5fBBc-.woff)
+      format("woff");
+  }
+  
+  @font-face {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/roboto/v32/KFOmCnqEu92Fr1Mu4mxM.woff)
+      format("woff");
+  }
+  
+  @font-face {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/roboto/v32/KFOlCnqEu92Fr1MmEU9fBBc-.woff)
+      format("woff");
+  }
+  
+  @font-face {
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/roboto/v32/KFOlCnqEu92Fr1MmWUlfBBc-.woff)
+      format("woff");
+  }
+  
+  @font-face {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/montserrat/v25/JTURjIg1_i6t8kCHKm45_dJE3gnD-w.woff)
+      format("woff");
+  }
+  
+  @font-face {
+    font-family: "Montserrat";
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url(https://fonts.gstatic.com/s/montserrat/v25/JTURjIg1_i6t8kCHKm45_dJE7gnD-w.woff)
+      format("woff");
+  }
+  
+  @font-face {
+    font-family: "IRANSansX";
+    src: url("../fonts/IRANSansX-Regular.woff2") format("woff2"),
+         url("../fonts/IRANSansX-Regular.woff") format("woff");
+    font-weight: 400;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: "IRANSansX";
+    src: url("../fonts/IRANSansX-Bold.woff2") format("woff2"),
+         url("../fonts/IRANSansX-Bold.woff") format("woff");
+    font-weight: 700;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: "IRANSansX";
+    src: url("../fonts/IRANSansX-Light.woff2") format("woff2"),
+         url("../fonts/IRANSansX-Light.woff") format("woff");
+    font-weight: 300;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: "IRANSansX";
+    src: url("../fonts/IRANSansX-Medium.woff2") format("woff2"),
+         url("../fonts/IRANSansX-Medium.woff") format("woff");
+    font-weight: 500;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: "IRANSansX";
+    src: url("../fonts/IRANSansX-Black.woff2") format("woff2"),
+         url("../fonts/IRANSansX-Black.woff") format("woff");
+    font-weight: 900;
+    font-style: normal;
+  }
