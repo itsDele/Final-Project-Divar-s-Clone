@@ -9,7 +9,7 @@ from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from .managers import CustomUserManager
 
-class User(AbstractBaseUser, PermissionsMixin):
+class Users(AbstractBaseUser, PermissionsMixin):
     id = models.AutoField(primary_key=True)
     username = models.CharField(_("username"), unique=True, max_length=50)
     email = models.EmailField(_("email address"), unique=True)
@@ -19,7 +19,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=20)
     last_name = models.CharField(max_length=30, blank=True)
     phone_number = models.CharField(max_length=20)
-    slug = models.SlugField(max_length=200, unique=True)
+    slug = models.SlugField(max_length=200, unique=True, blank=True)
 
     USERNAME_FIELD = "username"
     REQUIRED_FIELDS = []
@@ -47,7 +47,7 @@ class City(models.Model):
     def __str__(self):
         return self.city_name
 
-class Advertising(models.Model):  # Changed class name from Advertisement to Advertising
+class Advertising(models.Model):
     title = models.CharField(max_length=40, null=True)
     description = models.TextField()
     price = models.IntegerField()

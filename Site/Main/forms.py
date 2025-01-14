@@ -1,13 +1,12 @@
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, AuthenticationForm, UsernameField
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from django import forms
 from django.contrib.auth.models import User
-from django.utils.translation import gettext_lazy as _
-from .models import User, Advertising, AdvertisingImage, Category
-from .widgets import *
+from .models import Users, Advertising, AdvertisingImage, Category
+from .widgets import MultiFileInputWidget  # Assuming you've implemented this already
 
 class CustomUserCreationForm(UserCreationForm):
     class Meta:
-        model = User
+        model = Users
         fields = ("username", "first_name", "last_name", "email", "phone_number")
         labels = {
             "first_name": "First Name",
@@ -25,8 +24,15 @@ class CustomUserCreationForm(UserCreationForm):
 
 class CustomUserUpdateForm(UserChangeForm):
     class Meta:
-        model = User
+        model = Users
         fields = ("username", "first_name", "last_name", "email", "phone_number")
+        widgets = {
+            "username": forms.TextInput(attrs={"class": "form-control"}),
+            "first_name": forms.TextInput(attrs={"class": "form-control"}),
+            "last_name": forms.TextInput(attrs={"class": "form-control"}),
+            "email": forms.EmailInput(attrs={"class": "form-control"}),
+            "phone_number": forms.NumberInput(attrs={"class": "form-control"}),
+        }
 
 class AdvertisingForm(forms.ModelForm):
     class Meta:
@@ -46,7 +52,7 @@ class AdvertisingImageForm(forms.ModelForm):
         model = AdvertisingImage
         fields = ('image',)
         widgets = {
-            'image': MultiFileInputWidget(attrs={'multiple': True, 'accept': 'image/*'}),
+            'image': MultiFileInputWidget(attrs={'accept': 'image/*'}),
         }
 
     def save(self, advertisement, *args, **kwargs):

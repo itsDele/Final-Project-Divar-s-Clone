@@ -11,17 +11,13 @@ from rest_framework import status
 class MultiFileInputWidget(FileInput):
     allows_multiple_files = True
 
-    def __init__(self, attributes=None):
-        super().__init__(attributes)
-        if attributes is None:
-            attributes = {}
-        attributes.update({'multiple': True})
-        self.attrs = attributes
+class MultiFileInputWidget(FileInput):
+    def __init__(self, attrs=None):
+        super().__init__(attrs={"multiple": "multiple", **(attrs or {})})  # Ensure 'multiple' is set
 
     def value_from_datadict(self, data, files, field_name):
-        if hasattr(files, 'getlist'):
-            return files.getlist(field_name)
-        return files.get(field_name)
+        return files.getlist(field_name)  # Get the list of uploaded files
+
 
 def create_random_otp(length=6):
     digit_set = string.digits

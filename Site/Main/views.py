@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .forms import *
-from .models import Advertising, User, Note, AdvertisingImage, Category
+from .models import Advertising, Users, Note, AdvertisingImage, Category
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
